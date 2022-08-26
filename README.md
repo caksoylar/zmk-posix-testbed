@@ -6,6 +6,8 @@ So far the following are working:
 - Bluetooth emulation
   - NOTE: Missing settings subsytem support which means pairing keys cannot be saved
 
+![image](https://user-images.githubusercontent.com/7876996/186974209-2498232c-ff5e-4391-8ea1-482b07649f02.png)
+
 I am intending to use this for developing custom status screens with widgets to save time on testing.
 
 ## Setup
