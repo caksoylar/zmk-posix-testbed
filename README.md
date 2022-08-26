@@ -64,3 +64,9 @@ index 3dfcdb47..cbdb41a8 100644
 ```
 
 With the configuration in this repo, it should bring up a screen with default widgets, change layers for 5 seconds, wait 5 seconds, then send a keystroke for 1 second. You can try to pair to a different device in the first 10 seconds and see if you can observe the sent keystroke.
+
+## References
+- ZMK docs on posix board: https://zmk.dev/docs/development/posix-board
+- Board DTS files (to look up nodes to modify):
+  - https://github.com/zephyrproject-rtos/zephyr/blob/main/boards/posix/native_posix/native_posix.dts
+  - https://github.com/zmkfirmware/zmk/blob/main/app/boards/native_posix_64.overlay
