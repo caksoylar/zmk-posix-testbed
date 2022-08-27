@@ -66,8 +66,9 @@ You can provide key event inputs to the executable in two ways:
 
 Run the produced executable, passing the BT device using its `hciN` ID from above if you have it enabled:
 ```
-build/sdl/zephyr/zmk.exe --bt-dev=hci0
+sudo build/sdl/zephyr/zmk.exe --bt-dev=hci0
 ```
+`sudo` is required to utilize the BT device.
 
 With the configuration in the keymap, it should bring up a screen with default widgets, change layers for 5 seconds, wait 5 seconds, then send a keystroke for 1 second. If bluetooth initializes without error you can try to pair to a different device in the first 10 seconds and see if you can observe the sent keystroke.
 
@@ -76,7 +77,7 @@ With the configuration in the keymap, it should bring up a screen with default w
 
 For this you need the PR zmkfirmware/zmk#1318 to add the `key` shell commands and enable mock kscan driver to run without events. Run the executable then attach to the created pty manually, or automatically by passing the `--attach_uart` flag:
 ```
-build/sdl/zephyr/zmk.exe --bt-dev=hci0 --attach_uart --attach_uart_cmd='tmux new-window screen %s'
+sudo build/sdl/zephyr/zmk.exe --bt-dev=hci0 --attach_uart --attach_uart_cmd='tmux new-window screen %s'
 ```
 
 You can replace the `attach_uart_cmd` value to use a different terminal emulator.
