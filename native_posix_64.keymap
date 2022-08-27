@@ -25,12 +25,16 @@
 
 
 &kscan {
-    events = <
-        ZMK_MOCK_PRESS(0,0,5000)  // change layers for 5s
-        ZMK_MOCK_RELEASE(0,0,5000)
-        ZMK_MOCK_PRESS(1,1,1000)  // send D for 1s
-        ZMK_MOCK_RELEASE(1,1,5000)
-    >;
+    // for automated inputs
+    /* events = <
+           ZMK_MOCK_PRESS(0,0,5000)  // change layers for 5s
+           ZMK_MOCK_RELEASE(0,0,5000)
+           ZMK_MOCK_PRESS(1,1,1000)  // send D for 1s
+           ZMK_MOCK_RELEASE(1,1,5000)
+    */ >;
+
+	// for interactive shell use
+    /delete-property/ exit-after;
 };
 
 &sdl_dc {

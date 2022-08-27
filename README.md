@@ -40,13 +40,8 @@ Build the `native_posix_64` board with config from this repo:
 west build -p -d build/sdl -b native_posix_64 -- -DZMK_CONFIG=/abs/path/to/this/repo
 ```
 
-Run the produced executable, passing the BT device using its `hciN` ID from above if you have it enabled:
-```
-build/sdl/zephyr/zmk.exe --bt-dev=hci0
-```
-
 > **Note**
-> If you are using the built-in status screen, you might have to fix some string sizes in the display widgets so a buffer overflow doesn't happen, see the diff below which got it working for me.
+> If you are using the built-in status screen, you might have to fix some string sizes in the display widgets so a buffer overflow doesn't happen, see the diff below.
 
 ```diff
 diff --git a/app/src/display/widgets/battery_status.c b/app/src/display/widgets/battery_status.c
@@ -63,10 +58,33 @@ index 3dfcdb47..cbdb41a8 100644
      uint8_t level = state.level;
 ```
 
-With the configuration in this repo, it should bring up a screen with default widgets, change layers for 5 seconds, wait 5 seconds, then send a keystroke for 1 second. You can try to pair to a different device in the first 10 seconds and see if you can observe the sent keystroke.
+You can provide key event inputs to the executable in two ways:
+1. Automated inputs: Use the `ZMK_MOCK_PRESS` and `ZMK_MOCK_RELEASE` macros in the `events` property of the `kscan` node in the keymap, similar to ZMK tests
+2. Use the interactive shell with ZMK-defined `key` commands
+
+### Running with automated input events
+
+Run the produced executable, passing the BT device using its `hciN` ID from above if you have it enabled:
+```
+build/sdl/zephyr/zmk.exe --bt-dev=hci0
+```
+
+With the configuration in the keymap, it should bring up a screen with default widgets, change layers for 5 seconds, wait 5 seconds, then send a keystroke for 1 second. If bluetooth initializes without error you can try to pair to a different device in the first 10 seconds and see if you can observe the sent keystroke.
+
+
+### Running with interactive shell
+
+For this you need the PR zmkfirmware/zmk#1318 to add the `key` shell commands and enable mock kscan driver to run without events. Run the executable then attach to the created pty manually, or automatically by passing the `--attach_uart` flag:
+```
+build/sdl/zephyr/zmk.exe --bt-dev=hci0 --attach_uart --attach_uart_cmd='tmux new-window screen %s'
+```
+
+You can replace the `attach_uart_cmd` value to use a different terminal emulator.
+
 
 ## References
 - ZMK docs on posix board: https://zmk.dev/docs/development/posix-board
 - Board DTS files (to look up nodes to modify):
   - https://github.com/zephyrproject-rtos/zephyr/blob/main/boards/posix/native_posix/native_posix.dts
   - https://github.com/zmkfirmware/zmk/blob/main/app/boards/native_posix_64.overlay
+- Zephyr shell documentation: https://docs.zephyrproject.org/3.0.0/reference/shell/index.html
