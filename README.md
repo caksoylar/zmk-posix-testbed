@@ -80,7 +80,7 @@ For this you need the PR zmkfirmware/zmk#1318 to add the `key` shell commands an
 sudo build/sdl/zephyr/zmk.exe --bt-dev=hci0 --attach_uart --attach_uart_cmd='tmux new-window screen %s'
 ```
 
-You can replace the `attach_uart_cmd` value to use a different terminal emulator.
+You can replace the `attach_uart_cmd` value to use a different mechanism, such as `tio %s &`.
 
 In the shell, you can send key events with `key press/release/tap POS` commands where `POS` is the linearized key position (between 0 to 3 for this keymap).
 
