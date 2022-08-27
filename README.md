@@ -81,6 +81,8 @@ build/sdl/zephyr/zmk.exe --bt-dev=hci0 --attach_uart --attach_uart_cmd='tmux new
 
 You can replace the `attach_uart_cmd` value to use a different terminal emulator.
 
+In the shell, you can send key events with `key press/release/tap POS` commands where `POS` is the linearized key position (between 0 to 3 for this keymap).
+
 
 ## References
 - ZMK docs on posix board: https://zmk.dev/docs/development/posix-board
