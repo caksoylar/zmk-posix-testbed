@@ -5,18 +5,22 @@ So far the following are working:
 - Display emulation through SDL support
 - Bluetooth emulation
   - NOTE: Missing settings subsytem support which means pairing keys cannot be saved
+- USB emulation (potential issues with WSL, see below)
 
 ![image](https://user-images.githubusercontent.com/7876996/186974209-2498232c-ff5e-4391-8ea1-482b07649f02.png)
 
 I am intending to use this for developing custom status screens with widgets to save time on testing.
 
 ## Setup
+
 Following are instructions for Ubuntu 22.04 that I used to get things working.
 
 ### Display
+
 Install libsdl with `sudo apt install libsdl2-dev`.
 
 ### Bluetooth
+
 Prerequisites if you are using WSL2:
 - Install `usbipd` from https://github.com/dorssel/usbipd-win (I installed 2.3.0 release)
 - Recompile your WSL2 kernel with BT support, following the instructions at https://github.com/Diegorro98/usbipd-win-wiki/blob/master/WSL-support.md#bluetooth-on-wsl2
@@ -33,6 +37,10 @@ General instructions:
 - Find out your `hci` device ID through `hciconfig`
 - You can try to see if your BT adapter works through `bluetoothctl` (probably requires `bluetoothd` running and `sudo hciconfig hci0 up`), where you can `scan` for devices
 
+### USB
+
+Install `usbip`, potentially through `sudo apt install linux-tools-virtual hwdata`.
+
 ## Build and test
 
 Build the `native_posix_64` board with config from this repo:
@@ -40,7 +48,7 @@ Build the `native_posix_64` board with config from this repo:
 west build -p -d build/sdl -b native_posix_64 -- -DZMK_CONFIG=/abs/path/to/this/repo
 ```
 
-> **Note**
+> **Warning**
 > If you are using the built-in status screen, you might have to fix some string sizes in the display widgets so a buffer overflow doesn't happen, see the diff below.
 
 ```diff
@@ -84,6 +92,11 @@ You can replace the `attach_uart_cmd` value to use a different mechanism, such a
 
 In the shell, you can send key events with `key press/release/tap POS` commands where `POS` is the linearized key position (between 0 to 3 for this keymap).
 
+### Testing the keyboard through USB/IP
+
+You should see the keyboard listed as an `OpenMoko` device with the bus ID when listed through `sudo usbip list -r localhost`. You should then be able to connect to it through `sudo usbip attach -r localhost -b <bus-id>` and receive keycodes from the testbed.
+
+(I had issues with receiving keycodes with `usbip` on my personal WSL setup, while everything looked as expected on ZMK's end. This method is reportedly working for native Linux users, so I included instructions.)
 
 ## References
 - ZMK docs on posix board: https://zmk.dev/docs/development/posix-board
