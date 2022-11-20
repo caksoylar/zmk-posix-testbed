@@ -25,7 +25,7 @@
 
 
 &kscan {
-    // for automated inputs
+    // for automated inputs, uncomment if not using shell
     /* events = <
            ZMK_MOCK_PRESS(0,0,5000)  // change layers for 5s
            ZMK_MOCK_RELEASE(0,0,5000)
@@ -40,4 +40,6 @@
 &sdl_dc {
     height = <128>;  // Zen EPD dimensions
     width = <80>;
+    // height = <68>;  // nice!view dimensions
+    // width = <160>;
 };

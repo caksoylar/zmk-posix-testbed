@@ -4,7 +4,7 @@ This repo contains some settings for doing ZMK development using the native posi
 So far the following are working:
 - Display emulation through SDL support
 - Bluetooth emulation
-  - NOTE: Missing settings subsytem support which means pairing keys cannot be saved
+  - NOTE: Currently missing settings subsytem support which means pairing keys cannot be saved
 - USB emulation (potential issues with WSL, see below)
 
 ![image](https://user-images.githubusercontent.com/7876996/186974209-2498232c-ff5e-4391-8ea1-482b07649f02.png)
@@ -48,27 +48,11 @@ Build the `native_posix_64` board with config from this repo:
 west build -p -d build/sdl -b native_posix_64 -- -DZMK_CONFIG=/abs/path/to/this/repo
 ```
 
-> **Warning**
-> If you are using the built-in status screen, you might have to fix some string sizes in the display widgets so a buffer overflow doesn't happen, see the diff below.
-
-```diff
-diff --git a/app/src/display/widgets/battery_status.c b/app/src/display/widgets/battery_status.c
-index 3dfcdb47..cbdb41a8 100644
---- a/app/src/display/widgets/battery_status.c
-+++ b/app/src/display/widgets/battery_status.c
-@@ -27,7 +27,7 @@ struct battery_status_state {
- };
-
- static void set_battery_symbol(lv_obj_t *label, struct battery_status_state state) {
--    char text[2] = "  ";
-+    char text[7] = "  ";
-
-     uint8_t level = state.level;
-```
-
 You can provide key event inputs to the executable in two ways:
 1. Automated inputs: Use the `ZMK_MOCK_PRESS` and `ZMK_MOCK_RELEASE` macros in the `events` property of the `kscan` node in the keymap, similar to ZMK tests
 2. Use the interactive shell with ZMK-defined `key` commands
+
+If using automated inputs, comment out the last block in `native_posix_64.conf` file.
 
 ### Running with automated input events
 
@@ -92,14 +76,17 @@ You can replace the `attach_uart_cmd` value to use a different mechanism, such a
 
 In the shell, you can send key events with `key press/release/tap POS` commands where `POS` is the linearized key position (between 0 to 3 for this keymap).
 
+Note that in this mode not all log events are captured; if you run into issues try running with the above method to see all logs.
+
 ### Testing the keyboard through USB/IP
 
 You should see the keyboard listed as an `OpenMoko` device with the bus ID when listed through `sudo usbip list -r localhost`. You should then be able to connect to it through `sudo usbip attach -r localhost -b <bus-id>` and receive keycodes from the testbed.
 
-(I had issues with receiving keycodes with `usbip` on my personal WSL setup, while everything looked as expected on ZMK's end. This method is reportedly working for native Linux users, so I included instructions.)
+(I had issues with receiving keycodes with `usbip` on my personal WSL setup, while everything looked as expected on ZMK's end. This method is reportedly working for native Linux users.)
 
 ## References
 - ZMK docs on posix board: https://zmk.dev/docs/development/posix-board
+- Zephyr docs on `native_posix*` boards: https://docs.zephyrproject.org/3.0.0/boards/posix/native_posix/doc/index.html#native-posix
 - Board DTS files (to look up nodes to modify):
   - https://github.com/zephyrproject-rtos/zephyr/blob/main/boards/posix/native_posix/native_posix.dts
   - https://github.com/zmkfirmware/zmk/blob/main/app/boards/native_posix_64.overlay
