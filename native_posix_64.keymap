@@ -2,6 +2,8 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/kscan_mock.h>
 
+&sk { release-after-ms = <5000>; };
+
 / {
     keymap {
         compatible = "zmk,keymap";
@@ -9,37 +11,49 @@
         default_layer {
             label = "DEF";
             bindings = <
-                &mo 1 &kp B
-                &kp C &kp D
+                &kp LCTRL &kp RSFT &sk LCTRL &sk RALT
+                &kp LALT &kp RGUI &kp A &kp B
             >;
         };
-        alt_layer {
-            label = "ALT";
-            bindings = <
-                &trans &kp B
-                &kp C &kp D
-            >;
-        };
+        //alt_layer {
+        //    label = "ALT";
+        //    bindings = <
+        //        &trans &kp B
+        //        &kp C &kp D
+        //    >;
+        //};
     };
 };
 
 
 &kscan {
     // for automated inputs, uncomment if not using shell
-    /* events = <
-           ZMK_MOCK_PRESS(0,0,5000)  // change layers for 5s
-           ZMK_MOCK_RELEASE(0,0,5000)
-           ZMK_MOCK_PRESS(1,1,1000)  // send D for 1s
-           ZMK_MOCK_RELEASE(1,1,5000)
-    >; */
+    rows = <2>;
+	columns = <4>;
+    events = <
+           ZMK_MOCK_PRESS(0,3,500)  // sk RALT
+           ZMK_MOCK_PRESS(0,2,500)  // sk LCTRL
+           ZMK_MOCK_RELEASE(0,2,500)  // sk LCTRL
+           ZMK_MOCK_RELEASE(0,3,500)  // sk RALT
+           ZMK_MOCK_PRESS(1,2,500)  // A
+           ZMK_MOCK_RELEASE(1,2,1000)  // A
+           ZMK_MOCK_PRESS(0,0,500)  // LCTRL
+           ZMK_MOCK_PRESS(0,1,500)  // RSFT
+           ZMK_MOCK_PRESS(1,0,500)  // LALT
+           ZMK_MOCK_PRESS(1,1,500)  // RGUI
+           ZMK_MOCK_RELEASE(1,0,500)
+           ZMK_MOCK_RELEASE(1,1,500)
+           ZMK_MOCK_RELEASE(0,0,500)
+           ZMK_MOCK_RELEASE(0,1,500)
+    >;
 
 	// for interactive shell use
-    /delete-property/ exit-after;
+    ///delete-property/ exit-after;
 };
 
 &sdl_dc {
-    height = <128>;  // Zen EPD dimensions
-    width = <80>;
-    // height = <68>;  // nice!view dimensions
-    // width = <160>;
+    // height = <128>;  // Zen EPD dimensions
+    // width = <80>;
+    height = <68>;  // nice!view dimensions
+    width = <160>;
 };
