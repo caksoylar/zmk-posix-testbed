@@ -1,0 +1,27 @@
+if SHIELD_ZEN_SCREEN
+
+config ZMK_DISPLAY
+	select LV_USE_CONT
+	select LV_FONT_MONTSERRAT_26
+	select LV_FONT_MONTSERRAT_20
+	select LV_FONT_MONTSERRAT_16
+	select LV_USE_LABEL
+	select LV_USE_IMG
+
+choice ZMK_DISPLAY_STATUS_SCREEN
+	default ZMK_DISPLAY_STATUS_SCREEN_CUSTOM
+endchoice
+
+menuconfig CUSTOM_WIDGET_BATTERY_STATUS
+	bool "custom battery status widget"
+
+menuconfig CUSTOM_WIDGET_OUTPUT_STATUS
+	bool "custom output status widget"
+
+menuconfig CUSTOM_WIDGET_LAYER_STATUS
+	bool "custom layer status widget"
+
+menuconfig CUSTOM_WIDGET_PERIPHERAL_STATUS
+	bool "custom peripheral status widget"
+
+endif # SHIELD_ZEN_SCREEN

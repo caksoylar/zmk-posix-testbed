@@ -1,0 +1,3 @@
+config SHIELD_ZEN_SCREEN
+	def_bool $(shields_list_contains,zen_screen)
+
