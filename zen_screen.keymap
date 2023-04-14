@@ -10,11 +10,18 @@
             label = "QWERTY";
             bindings = <
                 &mo 1 &kp B
-                &kp C &kp D
+                &kp C &mo 2
             >;
         };
         alt_layer {
             label = "NUMBERS";
+            bindings = <
+                &trans &kp B
+                &kp C &kp D
+            >;
+        };
+        alt2_layer {
+            label = "SYMbolsend";
             bindings = <
                 &trans &kp B
                 &kp C &kp D
@@ -27,8 +34,8 @@
 &kscan {
     // for automated inputs, uncomment if not using shell
     events = <
-           ZMK_MOCK_PRESS(0,0,5000)  // change layers for 5s
-           ZMK_MOCK_RELEASE(0,0,5000)
+           ZMK_MOCK_PRESS(0,0,1000)  // change layers for 5s
+           ZMK_MOCK_RELEASE(0,0,1000)
            ZMK_MOCK_PRESS(1,1,1000)  // send D for 1s
            ZMK_MOCK_RELEASE(1,1,5000)
     >;
