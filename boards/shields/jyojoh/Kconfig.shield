@@ -1,0 +1,2 @@
+config SHIELD_JYOJOH
+   def_bool $(shields_list_contains,jyojoh)

@@ -1,0 +1,17 @@
+if(CONFIG_ZMK_DISPLAY AND CONFIG_CUSTOM_WIDGET_STATUS)
+  zephyr_library_include_directories(${CMAKE_SOURCE_DIR}/include)
+  zephyr_library_sources(custom_status_screen.c)
+  target_sources(app PRIVATE widgets/bolt.c)
+
+
+  if(NOT CONFIG_ZMK_SPLIT OR CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
+  target_sources(app PRIVATE widgets/util.c)
+    target_sources(app PRIVATE widgets/status.c)
+
+  else()
+  target_sources(app PRIVATE widgets/util2.c)
+    target_sources(app PRIVATE widgets/art_kronii.c)
+    target_sources(app PRIVATE widgets/art_marine.c)
+    target_sources(app PRIVATE widgets/peripheral_status.c)
+  endif()
+endif()

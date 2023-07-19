@@ -1,0 +1,27 @@
+if SHIELD_JYOJOH
+
+config CUSTOM_WIDGET_STATUS
+    bool "Custom status widget"
+    default y if ZMK_DISPLAY_STATUS_SCREEN_CUSTOM
+    select LV_FONT_MONTSERRAT_16
+    select LV_USE_IMG
+    select LV_USE_CANVAS
+
+if !ZMK_SPLIT || ZMK_SPLIT_ROLE_CENTRAL
+
+config CUSTOM_WIDGET_STATUS
+    select LV_FONT_MONTSERRAT_18
+    select LV_FONT_MONTSERRAT_14
+    select LV_FONT_UNSCII_16
+    select ZMK_WPM
+
+endif # !ZMK_SPLIT || ZMK_SPLIT_ROLE_CENTRAL
+
+choice ZMK_DISPLAY_STATUS_SCREEN
+    default ZMK_DISPLAY_STATUS_SCREEN_CUSTOM
+endchoice
+
+config ZMK_SPLIT  # set as peripheral
+    default y
+
+endif
